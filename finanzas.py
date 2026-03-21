@@ -34,7 +34,7 @@ while True:
     elif x == 'n':
         y = input("quieres ver los movimientos regstrados? (s/n) ")
         if y == 's':
-            print("1 = ver todos los movimientos \n2 = seleccionar por fecha")
+            print("1 = ver todos los movimientos \n2 = seleccionar por fecha \n3 = ver datos de mes")
             z = input()
             if z == '1':
                 cursor.execute("SELECT * FROM finanzas")
@@ -43,6 +43,15 @@ while True:
             elif z == '2':
                 fecha_x = input("ingresa la fecha de la que quieres conocer los movimientos (ejemplo: 2026-03-20) ")
                 cursor.execute("SELECT * FROM finanzas WHERE fecha = ?", (fecha_x,))
+                filas = cursor.fetchall()
+                for fila in filas: print(fila)
+            elif z == '3':
+                anio = int(input("ingresa el anio: "))
+                mes = int(input("ingresa el mes: "))
+                inicio = date(anio, mes, 1)
+                if mes == 12: fin = date(anio + 1, 1, 1)
+                else: fin = date(anio, mes+1, 1)
+                cursor.execute("SELECT * FROM finanzas WHERE fecha >= ? AND fecha < ?", (str(inicio), str(fin)))
                 filas = cursor.fetchall()
                 for fila in filas: print(fila)
         elif y == 'n': break
