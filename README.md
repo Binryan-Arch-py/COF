@@ -9,6 +9,7 @@ Es un porgrama pensado para ayudar al usuario a gestionar su dinero guardando ls
 * **SQLite** para la base de datos
 * **OS** para crear la carpeta
 * **datetime** para poder guardar la fecha
+* **POO** codigo hecho utilizando la POO (programacion orientada a objetos)
 
 ## Tecnologias
 * **Lenguaje:** Python
