@@ -138,13 +138,13 @@ def main(db, op):
         print("~" * 40)
         print(f"\nBIENVENIDO A LA CALCULADORA DE FINANZAS {usuario}")
         print("\nque quieres hacer?")
-        print("\n1 = registrar movimiento \n2 = ver todos los movimientos \n3 = ver movimeintos por fecha \n4 = ver movimientos por mes \n5 = ver total de un mes")
+        print("\n1 = registrar movimiento \n2 = ver todos los movimientos \n3 = ver movimientos por fecha \n4 = ver movimientos por mes \n5 = ver total de un mes")
         print()
         print("~" * 40)
         modo = input("\n--> ")
         time.sleep(0.4)
         os.system("clear")
-        print("~" * 40)
+        print("~" * 40, "\n")
         if modo == '1':
             op.movimiento()
             print("movimiento registrado")
@@ -161,7 +161,7 @@ def main(db, op):
         db.cerrar()
         print()
         print("~" * 40)
-        repetir = input("\nquieres volver a usar el programa? (s/n) ")
+        repetir = input("\nquieres volver a usar el programa? (s/n): ")
         time.sleep(0.3)
         if repetir == 'n':
             break
