@@ -1,6 +1,7 @@
 import sqlite3
 from datetime import date
 import os
+import time
 
 class Database:
     def __init__(self, carpeta):
@@ -51,6 +52,12 @@ class Database:
         return filas
 
 
+    def mes_total(self, inicio, fin):
+        self.cursor.execute("SELECT SUM(monto) FROM finanzas WHERE fecha >= ? AND fecha < ?", (str(inicio), str(fin)))
+        total = self.cursor.fetchone()[0] or -0 
+        return total
+
+
     def cerrar(self):
         self.conexion.close()
 
@@ -60,11 +67,29 @@ class Operaciones:
         self.base = base
 
 
+    @staticmethod
+    def fechas():
+        while True:
+            try:
+                anio = int(input("ingresa el anio \n--> "))
+                mes = int(input("ingresa el mes \nejemplo: 03 \n--> "))
+            except ValueError:
+                print("ERROR, vuelve a intentarlo/n")
+            else:
+                break
+        inicio = date(anio, mes, 1)
+        if mes == 12:
+            fin = date(anio + 1, 1, 1)
+        else:
+            fin = date(anio, mes + 1, 1)
+        return inicio, fin
+
+
     def movimiento(self):
         while True:
             while True:
                 try:
-                    monto = float(input("ingresa el monto que quieres registrar: "))
+                    monto = float(input("ingresa el monto que quieres registrar: \n--> "))
                 except ValueError:
                     print("ERROR, ingresa solo numeros")
                 else:
@@ -73,7 +98,7 @@ class Operaciones:
             if confirm == 's':
                 break
         fecha = date.today()
-        descripcion = input("ingresa la descripcion del gasto: ")
+        descripcion = input("ingresa la descripcion del gasto: \n--> ")
         self.base.insertar(fecha, monto, descripcion)
 
 
@@ -84,51 +109,62 @@ class Operaciones:
 
 
     def ver_fecha(self):
-        dia = input("ingresa la fecha de la que quieres conocer los movimientos (ejemplo: 2026-03-21) ")
+        dia = input("ingresa la fecha de la que quieres conocer los movimientos \nejemplo: 2026-03-21 \n--> ")
         filas = self.base.ver_fechas(dia)
         for fila in filas:
             print(fila)
 
 
     def ver_mes(self):
-        while True:
-            try:
-                anio = int(input("ingresa el anio: "))
-                mes = int(input("ingresa el mes: "))
-            except ValueError:
-                print("ERROR, vuelve a intentarlo/n")
-            else:
-                break
-        inicio = date(anio, mes, 1)
-        if mes == 12:
-            fin = date(anio + 1, 1, 1)
-        else:
-            fin = date(anio, mes + 1, 1)
+        inicio, fin = Operaciones.fechas()
         filas = self.base.ver_meses(inicio, fin)
         for fila in filas:
             print(fila)
 
 
+    def total_mes(self):
+        inicio, fin = Operaciones.fechas()
+        total = self.base.mes_total(inicio, fin)
+        print(f"${total}")
+
+
 base_datos = Database('db')
 operacion = Operaciones(base_datos)
 def main(db, op):
-    db.conectar()
-    db.tabla()
-    print("\nBIENVENIDO A LA CALCULADORA DE FINANZAS")
-    print("que quieres hacer? \n1 = registrar movimiento \n2 = ver todos los movimientos \n3 = ver movimeintos por fecha \n4 = ver movimientos por mes")
-    modo = input()
-    if modo == '1':
-        op.movimiento()
-        print("movimiento registrado")
-    elif modo == '2':
-        op.ver_todo()
-    elif modo == '3':
-        op.ver_fecha()
-    elif modo == '4':
-        op.ver_mes()
-    else:
-        print("opcion no disponible")
-    db.cerrar()
+    usuario = os.popen('whoami').read().strip()
+    while True:
+        db.conectar()
+        os.system("clear")
+        print("~" * 40)
+        print(f"\nBIENVENIDO A LA CALCULADORA DE FINANZAS {usuario}")
+        print("\nque quieres hacer?")
+        print("\n1 = registrar movimiento \n2 = ver todos los movimientos \n3 = ver movimeintos por fecha \n4 = ver movimientos por mes \n5 = ver total de un mes")
+        print()
+        print("~" * 40)
+        modo = input("\n--> ")
+        time.sleep(0.4)
+        os.system("clear")
+        print("~" * 40)
+        if modo == '1':
+            op.movimiento()
+            print("movimiento registrado")
+        elif modo == '2':
+            op.ver_todo()
+        elif modo == '3':
+            op.ver_fecha()
+        elif modo == '4':
+            op.ver_mes()
+        elif modo == '5':
+            op.total_mes()
+        else:
+            print("opcion no disponible")
+        db.cerrar()
+        print()
+        print("~" * 40)
+        repetir = input("\nquieres volver a usar el programa? (s/n) ")
+        time.sleep(0.3)
+        if repetir == 'n':
+            break
 
 
 if __name__ == "__main__":
