@@ -95,6 +95,7 @@ class Operaciones:
                 else:
                     break
             confirm = input(f"ingresaste ${monto}, es correcto? (s/n) ")
+            print()
             if confirm == 's':
                 break
         fecha = date.today()
