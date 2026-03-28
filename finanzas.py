@@ -145,23 +145,23 @@ def main(db, op):
     while True:
         db.conectar()
         os.system("clear")
-        print("~" * 40)
+        print("~" * 50)
         print(f"\nBIENVENIDO A LA CALCULADORA DE FINANZAS {usuario}")
         print("\nque quieres hacer?")
         print("""\n
-        1 = registrar movimiento 
-        2 = ver todos los movimientos 
-        3 = ver movimientos por fecha 
-        4 = ver movimientos por mes 
-        5 = ver total de un mes 
-        6 = pasar datos a excel
-        0 = salir""")
+  1 = registrar movimiento 
+  2 = ver todos los movimientos 
+  3 = ver movimientos por fecha 
+  4 = ver movimientos por mes 
+  5 = ver total de un mes 
+  6 = pasar datos a excel
+  0 = salir""")
         print()
-        print("~" * 40)
+        print("~" * 50)
         modo = input("\n--> ")
         time.sleep(0.4)
         os.system("clear")
-        print("~" * 40, "\n")
+        print("~" * 50, "\n")
         if modo == '1':
             op.movimiento()
             print("movimiento registrado")
@@ -181,7 +181,7 @@ def main(db, op):
         else:
             print("opcion no disponible")
         print()
-        print("~" * 40)
+        print("~" * 50)
 
 
 if __name__ == "__main__":
