@@ -149,13 +149,13 @@ def main(db, op):
         print(f"\nBIENVENIDO A LA CALCULADORA DE FINANZAS {usuario}")
         print("\nque quieres hacer?")
         print("""\n
-  1 = registrar movimiento 
-  2 = ver todos los movimientos 
-  3 = ver movimientos por fecha 
-  4 = ver movimientos por mes 
-  5 = ver total de un mes 
-  6 = pasar datos a excel
-  0 = salir""")
+1 = registrar movimiento 
+2 = ver todos los movimientos 
+3 = ver movimientos por fecha 
+4 = ver movimientos por mes 
+5 = ver total de un mes 
+6 = pasar datos a excel 
+0 = salir""")
         print()
         print("~" * 50)
         modo = input("\n--> ")
@@ -182,6 +182,7 @@ def main(db, op):
             print("opcion no disponible")
         print()
         print("~" * 50)
+        input("\npresiona Enter para continuar")
 
 
 if __name__ == "__main__":
