@@ -19,7 +19,12 @@ Es un porgrama pensado para ayudar al usuario a gestionar su dinero guardando ls
 
 ## como ejecutarlo
 para correr este programa, asegurate de tener instalado python y las librerias necesarias y ejecuta:
+### instalar librerias:
+para instalar las librerias necesarias asegurate de tener instalado pip y python-devel y ejecuta:
+pip install -r requirements.txt
 
+### ejecutar:
+para ejecutart el programa solo ejecuta esto:
 python3 finanzas.py
 
 ### Desarrollado por Bryan David Pérez Arana
