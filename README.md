@@ -32,7 +32,7 @@ deberas tener instalado **python** **python-pip** y **python-devel** (en ocasion
 ejecuta los siguientes comandos segun tu sistema:
 * ``python3 -m venv venv``
 * **Linux/MacOS:** ``source venv/bin/activate``
-* **Windows:** ``.\venv\Scripts\activate
+* **Windows:** ``.\venv\Scripts\activate``
 ### instalar dependencias
 pip install -r requirements.txt
 
