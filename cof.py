@@ -1,0 +1,189 @@
+import sqlite3
+from datetime import date
+import os
+import time
+import pandas as pd
+import re
+
+class Database:
+    def __init__(self, carpeta):
+        self.carpeta = carpeta
+        self.conexion = None
+        self.cursor = None
+        self.conectar()
+        self.tabla()
+
+
+    def conectar(self):
+        if not os.path.exists(self.carpeta):
+            os.makedirs(self.carpeta)
+        self.conexion = sqlite3.connect(os.path.join(self.carpeta, 'finanzas.db'))
+        self.cursor = self.conexion.cursor()
+
+
+    def tabla(self):
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS finanzas (
+            id INTEGER PRIMARY KEY,
+            fecha TEXT,
+            monto REAL,
+            descripcion TEXT
+            )
+        ''')
+
+
+    def insertar(self, fecha, dinero, descripcion):
+        self.cursor.execute("INSERT INTO finanzas (fecha, monto, descripcion) VALUES (?, ?, ?)", (str(fecha), dinero, descripcion))
+        self.conexion.commit()
+
+    def ver_todos(self):
+        self.cursor.execute("SELECT * FROM finanzas")
+        filas = self.cursor.fetchall()
+        return filas
+
+
+    def ver_fechas(self, dia):
+        self.cursor.execute("SELECT * FROM finanzas WHERE fecha = ?", (dia,))
+        filas = self.cursor.fetchall()
+        return filas
+
+
+    def ver_meses(self, inicio, fin):
+        self.cursor.execute("SELECT * FROM finanzas WHERE fecha >= ? AND fecha < ?", (str(inicio), str(fin)))
+        filas = self.cursor.fetchall()
+        return filas
+
+
+    def mes_total(self, inicio, fin):
+        self.cursor.execute("SELECT SUM(monto) FROM finanzas WHERE fecha >= ? AND fecha < ?", (str(inicio), str(fin)))
+        total = self.cursor.fetchone()[0] or -0 
+        return total
+
+
+    def excel(self):
+        data = pd.read_sql_query("SELECT * FROM finanzas", self.conexion)
+        for col in data.select_dtypes(include=['object']):
+            data[col] = data[col].apply(lambda x: re.sub(r'[\x00-\x1f\x7f-\x9f]', '', str(x)) if x else x)
+        data.to_excel('finanzas.xlsx', index=False, engine='openpyxl')
+
+
+    def cerrar(self):
+        self.conexion.close()
+
+
+class Operaciones:
+    def __init__ (self, base):
+        self.base = base
+
+
+    @staticmethod
+    def fechas():
+        while True:
+            try:
+                anio = int(input("ingresa el anio \n--> "))
+                mes = int(input("ingresa el mes \nejemplo: 03 \n--> "))
+            except ValueError:
+                print("ERROR, vuelve a intentarlo/n")
+            else:
+                break
+        inicio = date(anio, mes, 1)
+        if mes == 12:
+            fin = date(anio + 1, 1, 1)
+        else:
+            fin = date(anio, mes + 1, 1)
+        return inicio, fin
+
+
+    def movimiento(self):
+        while True:
+            while True:
+                try:
+                    monto = float(input("ingresa el monto que quieres registrar: \n--> "))
+                except ValueError:
+                    print("ERROR, ingresa solo numeros")
+                else:
+                    break
+            confirm = input(f"ingresaste ${monto}, es correcto? (s/n) ")
+            print()
+            if confirm == 's':
+                break
+        fecha = date.today()
+        descripcion = input("ingresa la descripcion del gasto: \n--> ")
+        self.base.insertar(fecha, monto, descripcion)
+
+
+    def ver_todo(self):
+        filas = self.base.ver_todos()
+        for fila in filas:
+            print(fila)
+
+
+    def ver_fecha(self):
+        dia = input("ingresa la fecha de la que quieres conocer los movimientos \nejemplo: 2026-03-21 \n--> ")
+        filas = self.base.ver_fechas(dia)
+        for fila in filas:
+            print(fila)
+
+
+    def ver_mes(self):
+        inicio, fin = Operaciones.fechas()
+        filas = self.base.ver_meses(inicio, fin)
+        for fila in filas:
+            print(fila)
+
+
+    def total_mes(self):
+        inicio, fin = Operaciones.fechas()
+        total = self.base.mes_total(inicio, fin)
+        print(f"${total}")
+
+
+base_datos = Database('db')
+operacion = Operaciones(base_datos)
+def main(db, op):
+    usuario = os.popen('whoami').read().strip()
+    while True:
+        db.conectar()
+        os.system("clear")
+        print("~" * 50)
+        print(f"\nBIENVENIDO A LA CALCULADORA DE FINANZAS {usuario}")
+        print("\nque quieres hacer?")
+        print("""\n
+1 = registrar movimiento 
+2 = ver todos los movimientos 
+3 = ver movimientos por fecha 
+4 = ver movimientos por mes 
+5 = ver total de un mes 
+6 = pasar datos a excel 
+0 = salir""")
+        print()
+        print("~" * 50)
+        modo = input("\n--> ")
+        time.sleep(0.4)
+        os.system("clear")
+        print("~" * 50, "\n")
+        if modo == '1':
+            op.movimiento()
+            print("movimiento registrado")
+        elif modo == '2':
+            op.ver_todo()
+        elif modo == '3':
+            op.ver_fecha()
+        elif modo == '4':
+            op.ver_mes()
+        elif modo == '5':
+            op.total_mes()
+        elif modo == '6':
+            db.excel()
+        elif modo == '0':
+            db.cerrar()
+            break
+        else:
+            print("opcion no disponible")
+        print()
+        print("~" * 50)
+        input("\npresiona Enter para continuar")
+
+
+if __name__ == "__main__":
+    main(base_datos, operacion)
