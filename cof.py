@@ -140,11 +140,16 @@ class Operaciones:
 
 base_datos = Database('db')
 operacion = Operaciones(base_datos)
+def limpiar():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
 def main(db, op):
     usuario = os.popen('whoami').read().strip()
     while True:
         db.conectar()
-        os.system("clear")
+        limpiar()
         print("~" * 50)
         print(f"\nBIENVENIDO A LA CALCULADORA DE FINANZAS {usuario}")
         print("\nque quieres hacer?")
@@ -160,7 +165,7 @@ def main(db, op):
         print("~" * 50)
         modo = input("\n--> ")
         time.sleep(0.4)
-        os.system("clear")
+        limpiar()
         print("~" * 50, "\n")
         if modo == '1':
             op.movimiento()
