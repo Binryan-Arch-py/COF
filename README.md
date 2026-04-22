@@ -23,12 +23,12 @@ Es un porgrama pensado para ayudar al usuario a gestionar su dinero guardando lo
 ## Como ejecutar
 ### descargar repositorio:
 para descargar este repositorio deberás tener instalado git y ejecutar el siguiente comando:
-``git clone https://github.com/Binryan-Arch-py/cof.git``
-``cd cof``
+``git clone https://github.com/Binryan-Arch-py/cofb.git``
+``cd cofb``
 ### instalar dependencias:
 para instalar lo necesario ejecuta los siguientes comandos dependiendo tu sistema
-* **Linux/MacOS:** ```chmod +x install.sh && source install.sh```
-* **Windows:** ```call install.bat```
+* **Linux/MacOS:** ``chmod +x install.sh && source install.sh``
+* **Windows:** ``call install.bat``
 ### ejecutar:
 para ejecutar el programa solo ejecuta esto:
 python3 cofb.py
