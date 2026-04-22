@@ -8,7 +8,7 @@ if %errorlevel% equ 0 (
 )
 echo Creando entorno virtual...
 python3 -m venv env
-.\venv\Scripts\activate
+.\env\Scripts\activate
 echo Entorno virtul creado exitosamente
 echo Instalando dependencias...
 pip install -r requirements.txt
