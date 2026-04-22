@@ -1,11 +1,11 @@
-FROM ubuntu:latest
+FROM archlinux:latest
 
 WORKDIR /app
 
 COPY requirements.txt .
 COPY script.sh .
 
-RUN echo '#!/bin/sh\n"$@"' > /usr/bin/sudo && chmod +x /usr/bin/sudo
+RUN printf '#!/bin/sh\n"$@"' > /usr/bin/sudo && chmod +x /usr/bin/sudo
 
 RUN chmod +x script.sh && bash script.sh
 
