@@ -166,6 +166,14 @@ class Operaciones:
         print(f"${total}")
 
 
+    def camb_user(self):
+        print(f"tu usuario actual es {self.base.ver_usuario()}")
+        confirmacion = input("quieres cambiarlo? (s/n) ")
+        if confirmacion == 's':
+            usuario = input("ingresa tu nuevo usuario: ")
+            self.base.usuario(usuario)
+
+
 base_datos = Database('db')
 operacion = Operaciones(base_datos)
 def limpiar():
@@ -193,6 +201,7 @@ def main(db, op):
 4 = ver movimientos por mes 
 5 = ver total de un mes 
 6 = pasar datos a excel 
+7 = cambiar usuario
 0 = salir""")
         print()
         print("~" * 50)
@@ -213,6 +222,8 @@ def main(db, op):
             op.total_mes()
         elif modo == '6':
             db.excel()
+        elif modo == '7':
+            op.camb_user()
         elif modo == '0':
             db.cerrar()
             break
