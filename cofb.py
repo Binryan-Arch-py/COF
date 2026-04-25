@@ -25,6 +25,7 @@ class Database:
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS finanzas (
             id INTEGER PRIMARY KEY,
+            user TEXT,
             fecha TEXT,
             monto REAL,
             descripcion TEXT
@@ -65,6 +66,32 @@ class Database:
         for col in data.select_dtypes(include=['object']):
             data[col] = data[col].apply(lambda x: re.sub(r'[\x00-\x1f\x7f-\x9f]', '', str(x)) if x else x)
         data.to_excel('finanzas.xlsx', index=False, engine='openpyxl')
+
+
+    def usuario(self, usuario):
+        self.cursor.execute("""
+            UPDATE finanzas 
+            SET user = ? 
+            WHERE id = 1 AND (user IS NULL OR user = '')
+        """, (usuario,))
+        self.cursor.execute("""
+            INSERT OR IGNORE INTO finanzas (id, user)           VALUES (1, ?)
+        """, (usuario,))
+        self.conexion.commit()
+
+
+    def ver_usuario(self):
+        self.cursor.execute("SELECT user FROM finanzas WHERE id = 1")
+        usuario = self.cursor.fetchone()
+        return usuario
+
+
+    def comp_usuario(self):
+        self.cursor.execute("SELECT 1 FROM finanzas WHERE id = 1 AND (user IS NULL OR user = '')")
+        if self.cursor.fetchone():
+            return True
+        else:
+            return False
 
 
     def cerrar(self):
@@ -146,7 +173,12 @@ def limpiar():
     else:
         os.system('clear')
 def main(db, op):
-    usuario = os.popen('whoami').read().strip()
+    limpiar()
+    if not db.comp_usuario():
+        usuario = db.ver_usuario()
+    else:
+        usuario = input("ingresa tu nombre: ")
+        db.usuario(usuario)
     while True:
         db.conectar()
         limpiar()
