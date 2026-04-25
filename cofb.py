@@ -72,7 +72,7 @@ class Database:
         self.cursor.execute("""
             UPDATE finanzas 
             SET user = ? 
-            WHERE id = 1 AND (user IS NULL OR user = '')
+            WHERE id = 1
         """, (usuario,))
         self.cursor.execute("INSERT OR IGNORE INTO finanzas (id, user) VALUES (1, ?)", (usuario,))
         self.conexion.commit()
@@ -172,6 +172,8 @@ class Operaciones:
         if confirmacion == 's':
             usuario = input("ingresa tu nuevo usuario: ")
             self.base.usuario(usuario)
+        print(f"nombre de usuario cambiado exitosamente a: {self.base.ver_usuario()}")
+        print("para ver los cambios vuelva a iniciar el programa")
 
 
 base_datos = Database('db')
