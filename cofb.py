@@ -189,7 +189,6 @@ def main(db, op):
         usuario = input("ingresa tu nombre: ")
         db.usuario(usuario)
     while True:
-        db.conectar()
         limpiar()
         print("~" * 50)
         print(f"\nBIENVENIDO A LA CALCULADORA DE FINANZAS {usuario}")
@@ -225,7 +224,6 @@ def main(db, op):
         elif modo == '7':
             op.camb_user()
         elif modo == '0':
-            db.cerrar()
             break
         else:
             print("opcion no disponible")
@@ -235,4 +233,6 @@ def main(db, op):
 
 
 if __name__ == "__main__":
+    base_datos.conectar()
     main(base_datos, operacion)
+    base_datos.cerrar()
