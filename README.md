@@ -23,7 +23,7 @@ Es un porgrama pensado para ayudar al usuario a gestionar su dinero guardando lo
 
 ## Como ejecutar
 ### Movil:
-si te gustaria utilizar el programa en un dispositivo movil (Andoird o Iphone) sigue los siguientes pasos:
+si te gustaria utilizar el programa en un dispositivo movil (Android o Iphone) sigue los siguientes pasos:
 * instala el programa **Termux** en **Android** o **ISH Shell** en **Iphone**
 * ejecuta ``pkg update`` en **Termux** y ``apk update`` en **ISH Shell**
 ### descargar repositorio:
