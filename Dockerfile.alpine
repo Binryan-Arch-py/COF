@@ -1,0 +1,12 @@
+FROM alpine:latest
+
+WORKDIR /app
+
+COPY requirements.txt .
+COPY install.sh .
+
+RUN sh install.sh
+
+COPY cofb.py .
+
+CMD ["/bin/sh", "-c", "source env/bin/activate && python3 cofb.py"]
