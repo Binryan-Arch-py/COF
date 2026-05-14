@@ -44,9 +44,14 @@ para instalar lo necesario ejecuta los siguientes comandos dependiendo tu sistem
 * **Windows:** abre una terminal de administrador y ejecuta: ``.\install.bat``
 ### ejecutar:
 para ejecutar el programa solo ejecuta esto:
-* **Android/IOS/Linux/Macos:** ``. env/bin/activate && python3 cofb.py``
+* **Android/IOS/Linux/Macos:** ``. env/bin/activate && python3 cofb_cli.py``
 * **Windows:** ``call .\env\Scripts\activate`` en **CMD** o ``.\env\Scripts\Activate.ps1`` en **PowerShell**
-* **Windows:** ``python cofb.py``
+* **Windows:** ``python cofb_cli.py``
+### extra:
+se esta trabajando en una version del programa GUI (interfaz grafica)
+para ejecutar la version GUI haz lo siguiente:
+* **NOTA:** esta version solo se puede ejecutar en computadora
+*deberas hacer lo mismo que para ejecutar la version de terminal dependiendo tu sistema y para ejecutar usa el comando:* ``python3 cofb_gui.py`` para **Linux y MacOS** y ``python cofb_gui.py`` en **Windows**
 
 ## Instrucciones de uso
 al ejecutar el programa por primera vez te pedira tu nombre o tu usuario, al ingresar el usuario y presionar la tecla *Enter* se guardara ese nombre
