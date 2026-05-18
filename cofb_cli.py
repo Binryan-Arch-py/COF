@@ -145,13 +145,6 @@ class Operaciones:
                     print("ingresa solo numeros del 1 al 12")
                     time.sleep(1.2)
                     continue
-                elif not (str(mes)[0] == '0' or str(mes)[0] == '1'):
-                    limpiar()
-                    print(f"ERROR, ingresaste: {mes}")
-                    print("ingresa el mes con el formato solicitado")
-                    print("01-12")
-                    time.sleep(1.2)
-                    continue
                 else:
                     break
         inicio = date(anio, mes, 1)
